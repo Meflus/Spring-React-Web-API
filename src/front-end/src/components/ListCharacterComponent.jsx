@@ -1,20 +1,27 @@
 import React, {useEffect, useState} from 'react'
 import { listCharacters } from '../services/CharacterService'
+import {useNavigate} from 'react-router-dom'
 
 const ListCharacterComponent = () => {
-    const [characters, setCharacters] = useState([])
+    const [characters, setCharacters] = useState([]);
+    const navigator = useNavigate();
 
     useEffect(() => {
         listCharacters().then((response) => {
-            setCharacters(response.data)
+            setCharacters(response.data);
         }).catch(error => {
-            console.error(error)
+            console.error(error);
         })
-    }, [])
+    }, []);
   
+    function addNewCharacter(){
+        navigator('/add-character');
+    }
+
     return (
     <div className='container'>
         <h2 className='text-center'>Lista de Personagens</h2>
+        <button className='btn btn-primary mb-2' onClick={addNewCharacter}>Adicionar Personagem</button>
         <table className='table table-striped table-bordered'>
             <thead>
                 <tr>

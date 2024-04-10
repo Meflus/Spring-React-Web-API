@@ -32,11 +32,9 @@ public class CharacterEntity {
     @Column(name = "proficiency_bonus")
     private Integer proficiencyBonus;
 
-    @ManyToOne
-    @JoinColumn(name="class_id")
-    private ClassEntity classEntity;
+    @Column(name="class_id")
+    private Long classEntityId;
 
-    @ManyToOne
-    @JoinColumn(name = "species_id")
-    private SpeciesEntity speciesEntity;
+    @Column(name = "species_id")
+    private Long speciesEntityId;
 }

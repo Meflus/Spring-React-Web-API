@@ -9,9 +9,7 @@ public class SpeciesMapper {
                 speciesEntity.getId(),
                 speciesEntity.getSpeciesName(),
                 speciesEntity.getSpeciesSize(),
-                speciesEntity.getSpeciesDescription(),
-                speciesEntity.getCharacters(),
-                speciesEntity.getFeatures()
+                speciesEntity.getSpeciesDescription()
         );
     }
 
@@ -20,9 +18,7 @@ public class SpeciesMapper {
                 speciesDto.getId(),
                 speciesDto.getSpeciesName(),
                 speciesDto.getSpeciesSize(),
-                speciesDto.getSpeciesDescription(),
-                speciesDto.getCharacters(),
-                speciesDto.getFeatures()
+                speciesDto.getSpeciesDescription()
         );
     }
 }

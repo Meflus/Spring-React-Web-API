@@ -10,8 +10,8 @@ public class FeatureMapper {
                 featureEntity.getFeatureName(),
                 featureEntity.getFeatureDescription(),
                 featureEntity.getLevelRequirement(),
-                featureEntity.getClassEntity(),
-                featureEntity.getSpeciesEntity()
+                featureEntity.getClassEntityId(),
+                featureEntity.getSpeciesEntityId()
         );
     }
 
@@ -21,8 +21,8 @@ public class FeatureMapper {
                 featureDto.getFeatureName(),
                 featureDto.getFeatureDescription(),
                 featureDto.getLevelRequirement(),
-                featureDto.getClassEntity(),
-                featureDto.getSpeciesEntity()
+                featureDto.getClassEntityId(),
+                featureDto.getSpeciesEntityId()
         );
     }
 }

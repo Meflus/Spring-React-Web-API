@@ -1,7 +1,5 @@
 package com.example.dnd.model.dto;
 
-import com.example.dnd.model.entity.ClassEntity;
-import com.example.dnd.model.entity.SpeciesEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +14,6 @@ public class FeatureDto {
     private String featureName;
     private String featureDescription;
     private Integer levelRequirement;
-    private ClassEntity classEntity;
-    private SpeciesEntity speciesEntity;
+    private Long classEntityId;
+    private Long speciesEntityId;
 }

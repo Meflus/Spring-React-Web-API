@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,10 +25,4 @@ public class SpeciesEntity {
 
     @Column(name = "species_description")
     private String speciesDescription;
-
-    @OneToMany(mappedBy = "speciesEntity")
-    private List<CharacterEntity> characters;
-
-    @OneToMany(mappedBy = "speciesEntity")
-    private List<FeatureEntity> features;
 }

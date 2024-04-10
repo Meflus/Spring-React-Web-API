@@ -12,8 +12,8 @@ public class CharacterMapper {
                 characterEntity.getIsActive(),
                 characterEntity.getCharacterLevel(),
                 characterEntity.getProficiencyBonus(),
-                characterEntity.getClassEntity(),
-                characterEntity.getSpeciesEntity()
+                characterEntity.getClassEntityId(),
+                characterEntity.getSpeciesEntityId()
                 );
     }
 
@@ -25,8 +25,8 @@ public class CharacterMapper {
                 characterDto.getIsActive(),
                 characterDto.getCharacterLevel(),
                 characterDto.getProficiencyBonus(),
-                characterDto.getClassEntity(),
-                characterDto.getSpeciesEntity()
+                characterDto.getClassEntityId(),
+                characterDto.getSpeciesEntityId()
         );
     }
 }

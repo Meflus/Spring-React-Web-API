@@ -26,11 +26,9 @@ public class FeatureEntity {
     @Column(name = "level_requirement")
     private Integer levelRequirement;
 
-    @ManyToOne
-    @JoinColumn(name="class_id")
-    private ClassEntity classEntity;
+    @Column(name="class_id")
+    private Long classEntityId;
 
-    @ManyToOne
-    @JoinColumn(name="species_id")
-    private SpeciesEntity speciesEntity;
+    @Column(name="species_id")
+    private Long speciesEntityId;
 }

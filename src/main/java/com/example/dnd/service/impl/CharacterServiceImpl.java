@@ -6,6 +6,8 @@ import com.example.dnd.model.entity.CharacterEntity;
 import com.example.dnd.model.mapper.CharacterMapper;
 import com.example.dnd.repository.CharacterRepository;
 import com.example.dnd.service.CharacterService;
+import com.example.dnd.service.ClassService;
+import com.example.dnd.service.SpeciesService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CharacterServiceImpl implements CharacterService {
     private CharacterRepository characterRepository;
+    private ClassService classService;
+    private SpeciesService speciesService;
 
     @Override
     public CharacterDto createCharacter(CharacterDto characterDto) {

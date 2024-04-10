@@ -9,9 +9,7 @@ public class ClassMapper {
                 classEntity.getId(),
                 classEntity.getClassName(),
                 classEntity.getClassHitDie(),
-                classEntity.getClassDescription(),
-                classEntity.getCharacters(),
-                classEntity.getFeatures()
+                classEntity.getClassDescription()
         );
     }
 
@@ -20,9 +18,7 @@ public class ClassMapper {
                 classDto.getId(),
                 classDto.getClassName(),
                 classDto.getClassHitDie(),
-                classDto.getClassDescription(),
-                classDto.getCharacters(),
-                classDto.getFeatures()
+                classDto.getClassDescription()
         );
     }
 }

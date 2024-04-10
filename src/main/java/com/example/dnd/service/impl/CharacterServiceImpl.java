@@ -19,6 +19,8 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     public CharacterDto createCharacter(CharacterDto characterDto) {
+        characterDto.setCharacterLevel(1);
+        characterDto.setProficiencyBonus(2);
         characterDto.setIsActive(true);
         return CharacterMapper.mapToDto(this.characterRepository.save(CharacterMapper.mapToEntity(characterDto)));
     }

@@ -39,8 +39,8 @@ const ListCharacterComponent = () => {
                             <td className='text-center'>{character.id}</td>
                             <td className='text-center'>{character.characterName}</td>
                             <td className='text-center'>{character.characterLevel}</td>
-                            <td className='text-center'>{character.characterClass}</td>
-                            <td className='text-center'>{character.characterSpecies}</td>
+                            <td className='text-center'>{character.classEntityId}</td>
+                            <td className='text-center'>{character.speciesEntityId}</td>
                         </tr>)
                 }
             </tbody>

@@ -11,7 +11,7 @@ const ListCharacterComponent = () => {
             setCharacters(response.data);
         }).catch(error => {
             console.error(error);
-        })
+        });
     }, []);
   
     function addNewCharacter(){

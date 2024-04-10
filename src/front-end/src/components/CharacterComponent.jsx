@@ -1,15 +1,43 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { createCharacter } from '../services/CharacterService';
+import { listClasses } from '../services/ClassService';
+import { listSpecies } from '../services/SpeciesService';
+import {useNavigate} from 'react-router-dom';
 
 const CharacterComponent = () => {
-    const [characterBackstory, setCharacterBackstory] = useState('')
-    const [characterName, setCharacterName] = useState('')
-    const [characterClass, setCharacterClass] = useState('')
-    const [characterSpecies, setCharacterSpecies] = useState('')
+    const [characterBackstory, setCharacterBackstory] = useState('');
+    const [characterName, setCharacterName] = useState('');
+    const [classEntityId, setClassEntityId] = useState();
+    const [speciesEntityId, setSpeciesEntityId] = useState();
+    const [classes, setClasses] = useState([]);
+    const [species, setSpecies] = useState([]);
+    const navigator = useNavigate();
+
+    useEffect(() => {
+        listClasses().then((response) => {
+            setClasses(response.data);
+        }).catch(error => {
+            console.error(error);
+        });
+    }, []);
+
+    useEffect(() => {
+        listSpecies().then((response) => {
+            setSpecies(response.data);
+        }).catch(error => {
+            console.error(error);
+        });
+    }, []);
 
     function saveCharacter(event) {
         event.preventDefault();
-        const character = {characterName, characterBackstory, characterClass, characterSpecies}
+        const character = {characterName, characterBackstory, classEntityId, speciesEntityId};
         console.log(character);
+
+        createCharacter(character).then((response) => {
+            console.log(response.data);
+            navigator('/simple-characters-list')
+        })
     }
 
   return (
@@ -45,39 +73,24 @@ const CharacterComponent = () => {
                         <div className='form-group mb-2'>
                             <label className='form-label'>Classe do Personagem:</label>
                             <select className="form-select" aria-label="Default select example"
-                                onChange={(event) => setCharacterClass(parseInt(event.target.value))}
-                                value={characterClass}>
+                                onChange={(event) => setClassEntityId(parseInt(event.target.value))}
+                                value={classEntityId}>
                                 <option value={null}>Selecione uma classe</option>
-                                <option value={1}>Artificer</option>
-                                <option value={2}>Barbarian</option>
-                                <option value={3}>Bard</option>
-                                <option value={4}>Cleric</option>
-                                <option value={5}>Druid</option>
-                                <option value={6}>Fighter</option>
-                                <option value={7}>Monk</option>
-                                <option value={8}>Paladin</option>
-                                <option value={9}>Ranger</option>
-                                <option value={10}>Rogue</option>
-                                <option value={11}>Sorcerer</option>
-                                <option value={12}>Warlock</option>
-                                <option value={13}>Wizard</option>
+                                {classes.map(classEntity => (
+                                    <option key={classEntity.id} value={classEntity.id}>{classEntity.className}</option>
+                                ))}
                             </select>
                         </div>
 
                         <div className='form-group mb-2'>
                             <label className='form-label'>Espécie do Personagem:</label>
                             <select className="form-select" aria-label="Default select example"
-                                onChange={(event) => setCharacterSpecies(parseInt(event.target.value))}
-                                value={characterSpecies}>
+                                onChange={(event) => setSpeciesEntityId(parseInt(event.target.value))}
+                                value={speciesEntityId}>
                                 <option value={null}>Selecione uma espécie</option>
-                                <option value={1}>Dragonborn</option>
-                                <option value={2}>Dwarf</option>
-                                <option value={3}>Elf</option>
-                                <option value={4}>Gnome</option>
-                                <option value={5}>Orc</option>
-                                <option value={6}>Halfling</option>
-                                <option value={7}>Human</option>
-                                <option value={8}>Tiefling</option>
+                                {species.map(speciesEntity => (
+                                    <option key={speciesEntity.id} value={speciesEntity.id}>{speciesEntity.className}</option>
+                                ))}
                             </select>
                         </div>
 

@@ -3,9 +3,13 @@ import React from 'react'
 const HeaderComponent = () => {
   return (
     <div>
+      <header className='header-fixed'>
         <nav className='navbar navbar-dark bg-dark'>
-            <a className="navbar-brand" href="http://localhost:1000/">Character Manegement System</a>
+          <div className='header-text'>
+            <a className="navbar-brand" href="http://localhost:1000/simple-characters-list">Character Manegement System</a>
+          </div>
         </nav>
+      </header>
     </div>
   )
 }

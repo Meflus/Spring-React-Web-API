@@ -6,8 +6,6 @@ import com.example.dnd.model.entity.CharacterEntity;
 import com.example.dnd.model.mapper.CharacterMapper;
 import com.example.dnd.repository.CharacterRepository;
 import com.example.dnd.service.CharacterService;
-import com.example.dnd.service.ClassService;
-import com.example.dnd.service.SpeciesService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +16,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CharacterServiceImpl implements CharacterService {
     private CharacterRepository characterRepository;
-    private ClassService classService;
-    private SpeciesService speciesService;
 
     @Override
     public CharacterDto createCharacter(CharacterDto characterDto) {
@@ -44,10 +40,35 @@ public class CharacterServiceImpl implements CharacterService {
     public CharacterDto updateCharacter(Long id, CharacterDto characterDto) {
         CharacterEntity characterEntity = this.characterRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Personagem de ID " + id + " não foi encontrado ou não existe!"));
-        characterEntity.setCharacterBackstory(characterDto.getCharacterBackstory());
-        characterEntity.setCharacterLevel(characterDto.getCharacterLevel());
-        characterEntity.setCharacterName(characterDto.getCharacterName());
-        characterEntity.setProficiencyBonus(characterDto.getProficiencyBonus());
+
+        if (characterDto.getCharacterBackstory().isBlank()) {
+            characterEntity.setCharacterBackstory(characterDto.getCharacterBackstory());
+        }
+        if (characterDto.getCharacterLevel() != null) {
+            characterEntity.setCharacterLevel(characterDto.getCharacterLevel());
+        }
+        if (characterDto.getCharacterName().isBlank()) {
+            characterEntity.setCharacterName(characterDto.getCharacterName());
+        }
+        if (characterDto.getClassEntityId() != null) {
+            characterEntity.setClassEntityId(characterDto.getClassEntityId());
+        }
+        if (characterDto.getSpeciesEntityId() != null) {
+            characterEntity.setSpeciesEntityId(characterDto.getSpeciesEntityId());
+        }
+
+        if (characterDto.getCharacterLevel() >= 1 && characterDto.getCharacterLevel() < 5) {
+            characterEntity.setProficiencyBonus(2);
+        } else if (characterDto.getCharacterLevel() >= 5 && characterDto.getCharacterLevel() < 9) {
+            characterEntity.setProficiencyBonus(3);
+        } else if (characterDto.getCharacterLevel() >= 9 && characterDto.getCharacterLevel() < 13) {
+            characterEntity.setProficiencyBonus(4);
+        } else if (characterDto.getCharacterLevel() >= 13 && characterDto.getCharacterLevel() < 17) {
+            characterEntity.setProficiencyBonus(5);
+        } else if (characterDto.getCharacterLevel() >= 17) {
+            characterEntity.setProficiencyBonus(6);
+        }
+
         return CharacterMapper.mapToDto(this.characterRepository.save(characterEntity));
     }
 

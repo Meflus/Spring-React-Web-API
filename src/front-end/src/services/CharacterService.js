@@ -7,3 +7,5 @@ export const listCharacters = () => axios.get(REST_API_BASE_URL);
 export const createCharacter = (character) => axios.post(REST_API_BASE_URL, character);
 
 export const getCharacter = (characterId) => axios.get(REST_API_BASE_URL + '/' + characterId);
+
+export const updateCharacter = (characterId, character) => axios.put(REST_API_BASE_URL + '/' + characterId, character);

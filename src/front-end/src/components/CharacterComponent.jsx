@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { createCharacter, getCharacter } from '../services/CharacterService';
+import { createCharacter, getCharacter, updateCharacter } from '../services/CharacterService';
 import { listClasses } from '../services/ClassService';
 import { listSpecies } from '../services/SpeciesService';
 import {useNavigate, useParams} from 'react-router-dom';
@@ -49,22 +49,30 @@ const CharacterComponent = () => {
         });
     }, []);
 
-    // FUNÇÕES
-
     function returnMainPage() {
         navigator('/simple-characters-list');
     }
 
-    function saveCharacter(event) {
+    function saveOrUpdateCharacter(event) {
         event.preventDefault();
         if (validateForm()){
             const character = {characterName, characterBackstory, classEntityId, speciesEntityId};
             console.log(character);
-    
-            createCharacter(character).then((response) => {
-                console.log(response.data);
-                navigator('/simple-characters-list');
-            })
+            if (id) {
+                updateCharacter(id, character).then((response) => {
+                    console.log(response.data);
+                    navigator('/simple-characters-list');
+                }).catch(error => {
+                    console.error(error);
+                })
+            } else {
+                createCharacter(character).then((response) => {
+                    console.log(response.data);
+                    navigator('/simple-characters-list');
+                }).catch(error => {
+                    console.error(error);
+                })
+            }
         }
     }
 
@@ -79,14 +87,14 @@ const CharacterComponent = () => {
             valid = false;
         }
 
-        if(classEntityId && classEntityId.trim()){
+        if(classEntityId != null){
             errorsCopy.classEntityId = '';
         } else {
             errorsCopy.classEntityId = 'A classe é de seleção obrigatória';
             valid = false;
         }
 
-        if(speciesEntityId && speciesEntityId.trim()){
+        if(speciesEntityId != null){
             errorsCopy.speciesEntityId = '';
         } else {
             errorsCopy.speciesEntityId = 'A espécie é de seleção obrigatória';
@@ -165,7 +173,7 @@ const CharacterComponent = () => {
                             {errors.speciesEntityId && <div className='invalid-feedback'>{errors.speciesEntityId}</div>}
                         </div>
                         <div className='d-grid gap-2 col-6 mx-auto'>
-                            <button className='btn btn-success' onClick={saveCharacter}>Confirmar</button>
+                            <button className='btn btn-success' onClick={saveOrUpdateCharacter}>Confirmar</button>
                             <button className='btn btn-secondary' onClick={returnMainPage}>cancelar</button>
                         </div>
                     </form>

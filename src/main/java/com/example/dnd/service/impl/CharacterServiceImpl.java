@@ -41,13 +41,13 @@ public class CharacterServiceImpl implements CharacterService {
         CharacterEntity characterEntity = this.characterRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Personagem de ID " + id + " não foi encontrado ou não existe!"));
 
-        if (characterDto.getCharacterBackstory() != null) {
+        if (characterDto.getCharacterBackstory().isBlank()) {
             characterEntity.setCharacterBackstory(characterDto.getCharacterBackstory());
         }
         if (characterDto.getCharacterLevel() != null) {
             characterEntity.setCharacterLevel(characterDto.getCharacterLevel());
         }
-        if (characterDto.getCharacterName() != null) {
+        if (characterDto.getCharacterName().isBlank()) {
             characterEntity.setCharacterName(characterDto.getCharacterName());
         }
         if (characterDto.getClassEntityId() != null) {

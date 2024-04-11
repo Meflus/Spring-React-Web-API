@@ -9,6 +9,7 @@ const CharacterComponent = () => {
     const [characterName, setCharacterName] = useState('');
     const [classEntityId, setClassEntityId] = useState();
     const [speciesEntityId, setSpeciesEntityId] = useState();
+    const [characterLevel, setCharacterLevel] = useState();
     const [classes, setClasses] = useState([]);
     const [species, setSpecies] = useState([]);
     const navigator = useNavigate();
@@ -27,6 +28,7 @@ const CharacterComponent = () => {
                 setCharacterName(response.data.characterName);
                 setClassEntityId(response.data.classEntityId);
                 setSpeciesEntityId(response.data.speciesEntityId);
+                setCharacterLevel(response.data.characterLevel);
             }).catch(error => {
                 console.error(error);
             })
@@ -56,7 +58,7 @@ const CharacterComponent = () => {
     function saveOrUpdateCharacter(event) {
         event.preventDefault();
         if (validateForm()){
-            const character = {characterName, characterBackstory, classEntityId, speciesEntityId};
+            const character = {characterName, characterBackstory, classEntityId, speciesEntityId, characterLevel};
             console.log(character);
             if (id) {
                 updateCharacter(id, character).then((response) => {
@@ -112,6 +114,40 @@ const CharacterComponent = () => {
             return <h2 className='text-center'>Adicionar Personagem</h2>
         }
     }
+
+    function levelField() {
+        if (id) {
+            return <div className='form-group mb-2'>
+            <label className='form-label'>Nível do Personagem:</label>
+            <select className={'form-select'}
+                aria-label='Default select example'
+                onChange={(event) => setCharacterLevel(parseInt(event.target.value))}
+                value={characterLevel}>
+                <option value={1}>1º Nível</option>
+                <option value={2}>2º Nível</option>
+                <option value={3}>3º Nível</option>
+                <option value={4}>4º Nível</option>
+                <option value={5}>5º Nível</option>
+                <option value={6}>6º Nível</option>
+                <option value={7}>7º Nível</option>
+                <option value={8}>8º Nível</option>
+                <option value={9}>9º Nível</option>
+                <option value={10}>10º Nível</option>
+                <option value={11}>11º Nível</option>
+                <option value={12}>12º Nível</option>
+                <option value={13}>13º Nível</option>
+                <option value={14}>14º Nível</option>
+                <option value={15}>15º Nível</option>
+                <option value={16}>16º Nível</option>
+                <option value={17}>17º Nível</option>
+                <option value={18}>18º Nível</option>
+                <option value={19}>19º Nível</option>
+                <option value={20}>20º Nível</option>
+            </select>
+        </div>
+        }
+    }
+
   return (
     <div className='container'>
         <br />
@@ -172,6 +208,11 @@ const CharacterComponent = () => {
                             </select>
                             {errors.speciesEntityId && <div className='invalid-feedback'>{errors.speciesEntityId}</div>}
                         </div>
+
+                        {
+                            levelField()
+                        }
+
                         <div className='d-grid gap-2 col-6 mx-auto'>
                             <button className='btn btn-success' onClick={saveOrUpdateCharacter}>Confirmar</button>
                             <button className='btn btn-secondary' onClick={returnMainPage}>cancelar</button>

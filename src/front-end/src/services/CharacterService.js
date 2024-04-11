@@ -9,3 +9,5 @@ export const createCharacter = (character) => axios.post(REST_API_BASE_URL, char
 export const getCharacter = (characterId) => axios.get(REST_API_BASE_URL + '/' + characterId);
 
 export const updateCharacter = (characterId, character) => axios.put(REST_API_BASE_URL + '/' + characterId, character);
+
+export const deleteCharacter = (characterId) => axios.delete(REST_API_BASE_URL + '/' + characterId);

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { listCharacters } from '../services/CharacterService';
+import { listCharacters, deleteCharacter } from '../services/CharacterService';
 import { listClasses } from '../services/ClassService';
 import { listSpecies } from '../services/SpeciesService';
 import {useNavigate} from 'react-router-dom';
@@ -11,11 +11,7 @@ const ListCharacterComponent = () => {
     const navigator = useNavigate();
 
     useEffect(() => {
-        listCharacters().then((response) => {
-            setCharacters(response.data);
-        }).catch(error => {
-            console.error(error);
-        });
+        getAllCharacters();
     }, []);
 
     useEffect(() => {
@@ -34,12 +30,37 @@ const ListCharacterComponent = () => {
         });
     }, []);
   
+    function getAllCharacters() {
+        listCharacters().then((response) => {
+            setCharacters(response.data);
+        }).catch(error => {
+            console.error(error);
+        });
+    }
+
     function addNewCharacter() {
         navigator('/add-character');
     }
 
     function updateCharacter(id) {
         navigator(`/edit-character/${id}`);
+    }
+
+    function removeCharacter(id) {
+        deleteCharacter(id).then((response) => {
+            getAllCharacters();
+        }).catch(error => {
+            console.error(error);
+        })
+    }
+
+    function deactiveOrRemoveButton(isActive) {
+        console.log(isActive)
+        if (isActive === true) {
+            return <button className='btn btn-warning' onClick={() => updateCharacter()}>Desativar</button>
+        } else {
+            return <button className='btn btn-danger' onClick={() => removeCharacter(character.id)}>Remover</button>
+        }
     }
 
     return (
@@ -68,10 +89,13 @@ const ListCharacterComponent = () => {
                             <td className='text-center'>{species.find(species =>
                                 species.id === character.speciesEntityId)?.speciesName}</td>
                             <td>
-                                <div className='d-grid gap-2 d-md-flex justify-content-md-center'>
+                                <div className='negative-padding justify-content-md-center d-md-flex'>
                                     <button className='btn btn-info'
-                                        onClick={() => updateCharacter(character.id)}>Editar</button>
-                                    <button className='btn btn-danger'>Remover</button>
+                                        onClick={() => updateCharacter(character.id)} style={{marginRight:'10px'}}>Editar</button>
+                                    {/* {
+                                       deactiveOrRemoveButton() 
+                                    } */}
+                                    <button className='btn btn-danger' onClick={() => removeCharacter(character.id)}>Remover</button>
                                 </div>
                             </td>
                         </tr>)

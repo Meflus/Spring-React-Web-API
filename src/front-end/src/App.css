@@ -27,3 +27,8 @@
 .header-text {
     padding-left: 1%;
 }
+
+.negative-padding {
+    margin-right: -80px;
+    margin-left: -80px;
+}

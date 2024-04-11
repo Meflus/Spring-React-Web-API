@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { createCharacter } from '../services/CharacterService';
+import { createCharacter, getCharacter } from '../services/CharacterService';
 import { listClasses } from '../services/ClassService';
 import { listSpecies } from '../services/SpeciesService';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 
 const CharacterComponent = () => {
     const [characterBackstory, setCharacterBackstory] = useState('');
@@ -12,12 +12,26 @@ const CharacterComponent = () => {
     const [classes, setClasses] = useState([]);
     const [species, setSpecies] = useState([]);
     const navigator = useNavigate();
+    const {id} = useParams();
 
     const [errors, setErrors] = useState({
         characterName: '',
         classEntityId: '',
         speciesEntityId: ''
     })
+
+    useEffect(() => {
+        if (id) {
+            getCharacter(id).then((response) => {
+                setCharacterBackstory(response.data.characterBackstory);
+                setCharacterName(response.data.characterName);
+                setClassEntityId(response.data.classEntityId);
+                setSpeciesEntityId(response.data.speciesEntityId);
+            }).catch(error => {
+                console.error(error);
+            })
+        }
+    }, [id])
 
     useEffect(() => {
         listClasses().then((response) => {
@@ -54,7 +68,7 @@ const CharacterComponent = () => {
         }
     }
 
-    function validateForm(){
+    function validateForm() {
         let valid = true;
         const errorsCopy = {... errors};
 
@@ -82,18 +96,28 @@ const CharacterComponent = () => {
         setErrors(errorsCopy);
         return valid;
     }
+
+    function pageTitle() {
+        if (id) {
+            return <h2 className='text-center'>Editar Personagem</h2>
+        } else {
+            return <h2 className='text-center'>Adicionar Personagem</h2>
+        }
+    }
   return (
     <div className='container'>
         <br />
         <div className='row padding'>
             <div className='card col-md-6 offset-md-3 offset-md-3'>
-                <h2 className='text-center'>Adicionar Personagem</h2>
+                {
+                    pageTitle()
+                }
                 <div className='card-body'>
                     <form>
                         <div className='form-group mb-2'>
                             <label className='form-label'>Nome do Personagem:</label>
                             <input 
-                                type="text"
+                                type='text'
                                 placeholder='Digite o nome do personagem...'
                                 name='characterName'
                                 value={characterName}
@@ -105,7 +129,7 @@ const CharacterComponent = () => {
                         <div className='form-group mb-2'>
                             <label className='form-label'>História do Personagem:</label>
                             <input 
-                                type="text"
+                                type='text'
                                 placeholder='Digite a história do personagem...'
                                 name='characterBackstory'
                                 value={characterBackstory}
@@ -116,7 +140,7 @@ const CharacterComponent = () => {
                         <div className='form-group mb-2'>
                             <label className='form-label'>Classe do Personagem:</label>
                             <select className={`form-select ${errors.classEntityId ? 'is-invalid': ''}`}
-                                aria-label="Default select example"
+                                aria-label='Default select example'
                                 onChange={(event) => setClassEntityId(parseInt(event.target.value))}
                                 value={classEntityId}>
                                 <option value={null}>Selecione uma classe</option>
@@ -130,7 +154,7 @@ const CharacterComponent = () => {
                         <div className='form-group mb-2'>
                             <label className='form-label'>Espécie do Personagem:</label>
                             <select className={`form-select ${errors.speciesEntityId ? 'is-invalid': ''}`}
-                                aria-label="Default select example"
+                                aria-label='Default select example'
                                 onChange={(event) => setSpeciesEntityId(parseInt(event.target.value))}
                                 value={speciesEntityId}>
                                 <option value={null}>Selecione uma espécie</option>
@@ -140,8 +164,10 @@ const CharacterComponent = () => {
                             </select>
                             {errors.speciesEntityId && <div className='invalid-feedback'>{errors.speciesEntityId}</div>}
                         </div>
-                            <button className='btn btn-success obj-left' onClick={saveCharacter}>Adicionar</button>
-                            <button className='btn btn-danger' onClick={returnMainPage}>cancelar</button>
+                        <div className='d-grid gap-2 col-6 mx-auto'>
+                            <button className='btn btn-success' onClick={saveCharacter}>Confirmar</button>
+                            <button className='btn btn-secondary' onClick={returnMainPage}>cancelar</button>
+                        </div>
                     </form>
                 </div>
             </div>

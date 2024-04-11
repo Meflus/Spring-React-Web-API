@@ -15,6 +15,7 @@ function App() {
           <Route path='/' element = {<ListCharacterComponent/>}></Route>
           <Route path='/simple-characters-list' element = {<ListCharacterComponent/>}></Route>
           <Route path='/add-character' element = {<CharacterComponent/>}></Route>
+          <Route path='/edit-character/:id' element = {<CharacterComponent/>}></Route>
         </Routes>
         <FooterComponent/>
       </BrowserRouter>

@@ -10,6 +10,7 @@ const CharacterComponent = () => {
     const [classEntityId, setClassEntityId] = useState();
     const [speciesEntityId, setSpeciesEntityId] = useState();
     const [characterLevel, setCharacterLevel] = useState();
+    const [characterImage, setCharacterImage] = useState(null);
     const [classes, setClasses] = useState([]);
     const [species, setSpecies] = useState([]);
     const navigator = useNavigate();
@@ -18,7 +19,8 @@ const CharacterComponent = () => {
     const [errors, setErrors] = useState({
         characterName: '',
         classEntityId: '',
-        speciesEntityId: ''
+        speciesEntityId: '',
+        characterImage: ''
     })
 
     useEffect(() => {
@@ -29,6 +31,7 @@ const CharacterComponent = () => {
                 setClassEntityId(response.data.classEntityId);
                 setSpeciesEntityId(response.data.speciesEntityId);
                 setCharacterLevel(response.data.characterLevel);
+                setCharacterImage(response.data.characterImage);
             }).catch(error => {
                 console.error(error);
             })
@@ -58,7 +61,17 @@ const CharacterComponent = () => {
     function saveOrUpdateCharacter(event) {
         event.preventDefault();
         if (validateForm()){
-            const character = {characterName, characterBackstory, classEntityId, speciesEntityId, characterLevel};
+            const character = new FormData();
+            character.append('characterName', characterName || '');
+            character.append('characterBackstory', characterBackstory || '');
+            character.append('classEntityId', classEntityId || '');
+            character.append('speciesEntityId', speciesEntityId || '');
+            character.append('characterLevel', characterLevel || '');
+
+            if (characterImage) {
+                character.append('file', characterImage);
+            }
+
             console.log(character);
             if (id) {
                 updateCharacter(id, character).then((response) => {
@@ -66,14 +79,14 @@ const CharacterComponent = () => {
                     navigator('/simple-characters-list');
                 }).catch(error => {
                     console.error(error);
-                })
+                });
             } else {
                 createCharacter(character).then((response) => {
                     console.log(response.data);
                     navigator('/simple-characters-list');
                 }).catch(error => {
                     console.error(error);
-                })
+                });
             }
         }
     }
@@ -101,6 +114,13 @@ const CharacterComponent = () => {
         } else {
             errorsCopy.speciesEntityId = 'A espécie é de seleção obrigatória';
             valid = false;
+        }
+
+        if (!characterImage) {
+            errorsCopy.characterImage = 'A imagem do personagem é obrigatória';
+            valid = false;
+        } else {
+            errorsCopy.characterImage = '';
         }
 
         setErrors(errorsCopy);
@@ -213,6 +233,16 @@ const CharacterComponent = () => {
                             levelField()
                         }
 
+                        <div className='form-group mb-2'>
+                            <label className='form-label'>Envie a imagem do personagem: </label>
+                            <input
+                                type="file"
+                                accept='image/png, image/jpeg, image/jpg'
+                                className={`form-select ${errors.characterImage ? 'is-invalid': ''}`}
+                                name='file'
+                                onChange={(event) => setCharacterImage(event.target.files[0])}/>
+                                {errors.characterImage && <div className='invalid-feedback'>{errors.characterImage}</div>}
+                        </div>
                         <div className='d-grid gap-2 col-6 mx-auto'>
                             <button className='btn btn-success' onClick={saveOrUpdateCharacter}>Confirmar</button>
                             <button className='btn btn-secondary' onClick={returnMainPage}>cancelar</button>

@@ -32,7 +32,22 @@ const ListCharacterComponent = () => {
   
     function getAllCharacters() {
         listCharacters().then((response) => {
-            setCharacters(response.data);
+            const charactersWithImageUrl = response.data.map(character => {
+                const byteCharacters = atob(character.characterImage);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                const arrayBuffer = new ArrayBuffer(byteArray.length);
+                const blob = new Blob([byteArray], { type: 'image/*' });
+                const characterImage = URL.createObjectURL(blob);
+                return {
+                    ...character,
+                    characterImage: characterImage
+                };
+            });
+            setCharacters(charactersWithImageUrl);
         }).catch(error => {
             console.error(error);
         });
@@ -75,6 +90,7 @@ const ListCharacterComponent = () => {
                     <th className='text-center'>Nível</th>
                     <th className='text-center'>Classe</th>
                     <th className='text-center'>Espécie</th>
+                    <th className='text-center'>Imagem</th>
                     <th className='text-center'>Ações</th>
                 </tr>
             </thead>
@@ -88,10 +104,11 @@ const ListCharacterComponent = () => {
                                 classe.id === character.classEntityId)?.className}</td>
                             <td className='text-center'>{species.find(species =>
                                 species.id === character.speciesEntityId)?.speciesName}</td>
+                            <td className='text-center'><img src={character.characterImage} style={{width: '100px', height: 'auto'}}/></td>
                             <td>
                                 <div className='negative-padding justify-content-md-center d-md-flex'>
                                     <button className='btn btn-info'
-                                        onClick={() => updateCharacter(character.id)} style={{marginRight:'10px'}}>Editar</button>
+                                        onClick={() => updateCharacter(character.id)} alt={character.characterName} style={{marginRight:'10px'}}>Editar</button>
                                     {/* {
                                        deactiveOrRemoveButton() 
                                     } */}

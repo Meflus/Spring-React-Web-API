@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getUser, listUsers } from '../services/UserService';
 
 const LoginComponent = () => {
     const navigator = useNavigate();
+    const [users, setUsers] = useState([]);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({
         email: '',
         password: ''
-    })
+    });
+
+    useEffect(() => {
+        listUsers().then((response) => {
+            setUsers(response.data);
+        }).catch(error => {
+            console.error(error);
+        });
+    }, []);
 
     function validateForm() {
         let valid = true;
@@ -36,11 +46,9 @@ const LoginComponent = () => {
         navigator('/signin');
     }
 
-    function saveUser(event) {
-        event.preventDefault();
-        if(validateForm()) {
-            const user = {email, password};
-            console.log(user);
+    function authenticateLogin() {
+        if (validateForm()) {
+            navigator('/simple-characters-list');
         }
     }
 
@@ -77,7 +85,7 @@ const LoginComponent = () => {
                         </div>
 
                         <div className='d-grid gap-2 col-6 mx-auto'>
-                            <button className='btn btn-success' onClick={saveUser}>Acessar</button>
+                            <button className='btn btn-success' onClick={authenticateLogin}>Acessar</button>
                             <button className='btn btn-info' onClick={signInPage}>Registre-se</button>
                         </div>
                     </form>

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createUser } from '../services/UserService';
 
 const SigninComponent = () => {
     const navigator = useNavigate();
@@ -38,9 +39,15 @@ const SigninComponent = () => {
 
     function saveUser(event) {
         event.preventDefault();
-        if(validateForm()) {
+        if (validateForm()) {
             const user = {email, password};
             console.log(user);
+            createUser(user).then((response) => {
+                console.log(response.data);
+                navigator('/login');
+            }).catch(error => {
+                console.error(error);
+            })
         }
     }
 

@@ -32,7 +32,7 @@ public class CharacterEntity {
     @Column(name = "proficiency_bonus")
     private Integer proficiencyBonus;
 
-    @Column(name="class_id")
+    @Column(name = "class_id")
     private Long classEntityId;
 
     @Column(name = "species_id")

@@ -18,4 +18,5 @@ public class CharacterDto {
     private Integer proficiencyBonus;
     private Long classEntityId;
     private Long speciesEntityId;
+    private byte[] characterImage;
 }

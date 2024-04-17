@@ -56,6 +56,9 @@ public class CharacterServiceImpl implements CharacterService {
         if (characterDto.getSpeciesEntityId() != null) {
             characterEntity.setSpeciesEntityId(characterDto.getSpeciesEntityId());
         }
+        if (characterDto.getCharacterImage() != null) {
+            characterEntity.setCharacterImage(characterDto.getCharacterImage());
+        }
 
         if (characterDto.getCharacterLevel() >= 1 && characterDto.getCharacterLevel() < 5) {
             characterEntity.setProficiencyBonus(2);
@@ -77,5 +80,12 @@ public class CharacterServiceImpl implements CharacterService {
         CharacterEntity characterEntity = this.characterRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Personagem de ID " + id + " não foi encontrado ou não existe!"));
         this.characterRepository.deleteById(characterEntity.getId());
+    }
+
+    @Override
+    public byte[] getCharacterImageById(Long id) {
+        CharacterEntity characterEntity = characterRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Personagem de ID \" + id + \" não foi encontrado ou não existe!"));
+        return characterEntity.getCharacterImage();
     }
 }

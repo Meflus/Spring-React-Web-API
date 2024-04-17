@@ -14,4 +14,6 @@ public interface CharacterService {
     CharacterDto updateCharacter(Long id, CharacterDto characterDto);
 
     void deleteCharacterById(Long id);
+
+    byte[] getCharacterImageById(Long id);
 }

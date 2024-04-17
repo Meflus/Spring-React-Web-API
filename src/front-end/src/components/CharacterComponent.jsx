@@ -115,38 +115,38 @@ const CharacterComponent = () => {
         }
     }
 
-    // function levelField() {
-    //     if (id) {
-    //         return <div className='form-group mb-2'>
-    //         <label className='form-label'>Nível do Personagem:</label>
-    //         <select className={'form-select'}
-    //             aria-label='Default select example'
-    //             onChange={(event) => setCharacterLevel(parseInt(event.target.value))}
-    //             value={characterLevel}>
-    //             <option value={1}>1º Nível</option>
-    //             <option value={2}>2º Nível</option>
-    //             <option value={3}>3º Nível</option>
-    //             <option value={4}>4º Nível</option>
-    //             <option value={5}>5º Nível</option>
-    //             <option value={6}>6º Nível</option>
-    //             <option value={7}>7º Nível</option>
-    //             <option value={8}>8º Nível</option>
-    //             <option value={9}>9º Nível</option>
-    //             <option value={10}>10º Nível</option>
-    //             <option value={11}>11º Nível</option>
-    //             <option value={12}>12º Nível</option>
-    //             <option value={13}>13º Nível</option>
-    //             <option value={14}>14º Nível</option>
-    //             <option value={15}>15º Nível</option>
-    //             <option value={16}>16º Nível</option>
-    //             <option value={17}>17º Nível</option>
-    //             <option value={18}>18º Nível</option>
-    //             <option value={19}>19º Nível</option>
-    //             <option value={20}>20º Nível</option>
-    //         </select>
-    //     </div>
-    //     }
-    // }
+    function levelField() {
+        if (id) {
+            return <div className='form-group mb-2'>
+            <label className='form-label'>Nível do Personagem:</label>
+            <select className={'form-select'}
+                aria-label='Default select example'
+                onChange={(event) => setCharacterLevel(parseInt(event.target.value))}
+                value={characterLevel}>
+                <option value={1}>1º Nível</option>
+                <option value={2}>2º Nível</option>
+                <option value={3}>3º Nível</option>
+                <option value={4}>4º Nível</option>
+                <option value={5}>5º Nível</option>
+                <option value={6}>6º Nível</option>
+                <option value={7}>7º Nível</option>
+                <option value={8}>8º Nível</option>
+                <option value={9}>9º Nível</option>
+                <option value={10}>10º Nível</option>
+                <option value={11}>11º Nível</option>
+                <option value={12}>12º Nível</option>
+                <option value={13}>13º Nível</option>
+                <option value={14}>14º Nível</option>
+                <option value={15}>15º Nível</option>
+                <option value={16}>16º Nível</option>
+                <option value={17}>17º Nível</option>
+                <option value={18}>18º Nível</option>
+                <option value={19}>19º Nível</option>
+                <option value={20}>20º Nível</option>
+            </select>
+        </div>
+        }
+    }
 
   return (
     <div className='container'>

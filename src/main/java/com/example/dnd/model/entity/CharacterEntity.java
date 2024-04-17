@@ -37,4 +37,7 @@ public class CharacterEntity {
 
     @Column(name = "species_id")
     private Long speciesEntityId;
+
+    @Column(name = "character_image")
+    private byte[] characterImage;
 }

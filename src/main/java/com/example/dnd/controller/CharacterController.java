@@ -4,9 +4,12 @@ import com.example.dnd.model.dto.CharacterDto;
 import com.example.dnd.service.CharacterService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -16,8 +19,15 @@ import java.util.List;
 public class CharacterController {
     private CharacterService characterService;
 
-    @PostMapping
-    public ResponseEntity<CharacterDto> createCharacter(@RequestBody CharacterDto characterDto) {
+    @PostMapping(consumes = { "multipart/form-data" })
+    public ResponseEntity<CharacterDto> createCharacter(@RequestParam("file") MultipartFile file, @ModelAttribute CharacterDto characterDto) {
+        if (!file.isEmpty()) {
+            try {
+                characterDto.setCharacterImage(file.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         return new ResponseEntity<>(this.characterService.createCharacter(characterDto), HttpStatus.CREATED);
     }
 
@@ -40,5 +50,11 @@ public class CharacterController {
     public ResponseEntity<String> deleteCharacterById(@PathVariable("id") Long id) {
         this.characterService.deleteCharacterById(id);
         return ResponseEntity.ok("Personagem de ID " + id + " removido com sucesso!");
+    }
+
+    @GetMapping("/image/{id}")
+    public ResponseEntity<byte[]> getCharacterImage(@PathVariable("id") Long id) {
+        byte[] image = characterService.getCharacterImageById(id);
+        return ResponseEntity.ok().contentType(MediaType.ALL).body(image);
     }
 }
